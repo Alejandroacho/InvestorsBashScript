@@ -24,13 +24,15 @@ class CashCall():
 
     def save(self, path=None):
         if not path:
-            path = f'./investors_cash_calls/investor_{self.investor_id}/'
-        folder_path = os.path.dirname(path)
+            path = f'./investors_cash_calls/investor_{self.investor_id}/{self.year}/'
+            folder_path = os.path.dirname(path)
+        else:
+            folder_path = os.path.dirname(path)+  f'/investor_{self.investor_id}/{self.year}/'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
         file_name = f'cash_call_{self.year}.json'
-        path = path + file_name
-        with open(path, 'w+') as file:
+        full_path = folder_path + file_name
+        with open(full_path, 'w+') as file:
             json.dump(self.__dict__, file, indent=4)
 
 class Bill():
@@ -47,12 +49,14 @@ class Bill():
     def save(self, path=None):
         if not path:
             path = f'./investors_bills/investor_{self.investor_id}/{self.year}/'
-        folder_path = os.path.dirname(path)
+            folder_path = os.path.dirname(path)
+        else:
+            folder_path = os.path.dirname(path) + f'/investor_{self.investor_id}/{self.year}/'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
         file_name = f'bill_{self.id}.json'
-        path = path + file_name
-        with open(path, 'w+') as file:
+        full_path = folder_path + file_name
+        with open(full_path, 'w+') as file:
             json.dump(self.__dict__, file, indent=4)
 
 
@@ -127,27 +131,18 @@ class Investor():
                 return False
         return True
 
-    def generate_bills(self, year=None, all=None, path=None):
+    def generate_bills(self, year=None, all=None, path=None, save=True):
         for investment in self.investments:
-            if year and investment.date_added.year <= year:
-                if all:
-                    initial_year = investment.date_added.year
-                    final_year = year
-                    for current_year in range(initial_year, final_year + 1):
-                        if investment.fees_type == "yearly":
-                            investment.generate_bill(current_year, path)
-                        elif investment.fees_type == "upfront" and investment.date_added.year == current_year:
-                            investment.generate_bill(current_year, path)
-                elif not all:
-                    investment.generate_bill(year, path)
-            elif all and not year:
+            if all:
                 initial_year = investment.date_added.year
-                final_year = datetime.now().year
+                final_year = year if year else datetime.now().year
                 for current_year in range(initial_year, final_year + 1):
                     if investment.fees_type == "yearly":
-                        investment.generate_bill(current_year, path)
+                        investment.generate_bill(current_year, path, save)
                     elif investment.fees_type == "upfront" and investment.date_added.year == current_year:
-                        investment.generate_bill(current_year, path)
+                        investment.generate_bill(current_year, path, save)
+            elif not all and investment.date_added.year <= year:
+                investment.generate_bill(year, path, save)
         return self.bills
 
     def generate_sets_of_bills(self):
@@ -189,7 +184,7 @@ class Investment():
         self.investor = investor
         return self.investor
 
-    def generate_bill(self, year=None, path=None):
+    def generate_bill(self, year=None, path=None, save=True):
         global CURRENT_BILL_ID
         fees_amount = self.get_fees(year)
         data = {
@@ -202,7 +197,8 @@ class Investment():
         }
         bill = Bill(data)
         self.investor.bills.append(bill)
-        bill.save(path)
+        if save:
+            bill.save(path)
         CURRENT_BILL_ID += 1
         return bill
 

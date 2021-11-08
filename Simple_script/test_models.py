@@ -69,8 +69,8 @@ class TestBill(AbstractClasses):
 
     def test_save_bill(self):
         bill = self._abstract_bill()
-        bill.save(path=f'./test_investors_bills/investor_1/')
-        path = f'./test_investors_bills/investor_1/bill_1.json'
+        bill.save(path=f'./test_investors_bills/')
+        path = f'./test_investors_bills/investor_1/2017/bill_1.json'
         assert os.path.exists(path)
         shutil.rmtree('./test_investors_bills/')
 
@@ -78,8 +78,8 @@ class TestCashCall(AbstractClasses):
 
     def test_save_cash_call(self):
         bill = self._abstract_cashcall()
-        bill.save(path=f'./test_investors_cash_calls/investor_1/')
-        path = f'./test_investors_cash_calls/investor_1/cash_call_2021.json'
+        bill.save(path=f'./test_investors_cash_calls/')
+        path = f'./test_investors_cash_calls/investor_1/2021/cash_call_2021.json'
         assert os.path.exists(path)
         shutil.rmtree('./test_investors_cash_calls/')
 
@@ -92,10 +92,10 @@ class TestSetOfBills(AbstractClasses):
 
     def test_validate_set_of_bills(self):
         set_of_bills = self._abstract_set_of_bill()
-        path = f'./test_investors_cash_calls/investor_1/'
+        path = f'./test_investors_cash_calls/'
         cash_call = set_of_bills.validate_year_bills(path)
         assert cash_call.total_amount == 6700*2
-        assert os.path.exists(f'./test_investors_cash_calls/investor_1/cash_call_2017.json')
+        assert os.path.exists(f'./test_investors_cash_calls/investor_1/2017/cash_call_2017.json')
         shutil.rmtree('./test_investors_cash_calls/')
 
 
@@ -163,14 +163,14 @@ class TestInvestor(AbstractClasses):
         investment2 = self._abstract_investment(investment2_data)
         investment2.set_investor(investor)
         investor.investments = [investment, investment2]
-        investor.generate_bills(year=2017, path=f'./test_investors_bills/investor_{investor.id}/')
+        investor.generate_bills(year=2017, path=f'./test_investors_bills/')
         assert len(investor.bills) == 1
         assert investor.bills[0].investor_id == investor.id
         assert investor.bills[0].investment_id == investment.id
         assert investor.bills[0].date_added == "2017-07-14"
         assert investor.bills[0].fees_amount == 6158.4
         assert investor.bills[0].fees_type == "yearly"
-        path = f'./test_investors_bills/investor_{investor.id}/bill_1.json'
+        path = f'./test_investors_bills/investor_{investor.id}/2017/bill_1.json'
         assert os.path.exists(path)
         shutil.rmtree('./test_investors_bills/')
 
@@ -186,9 +186,9 @@ class TestInvestor(AbstractClasses):
         investor = self._abstract_investor()
         set_of_bills = self._abstract_set_of_bill()
         investor.sets_of_bills['2017'] = set_of_bills
-        path = f'./test_investors_cash_calls/investor_1/'
+        path = f'./test_investors_cash_calls/'
         investor.verify_set_of_bills(year=2017, path=path)
-        path = f'./test_investors_cash_calls/investor_1/cash_call_2017.json'
+        path = f'./test_investors_cash_calls/investor_1/2017/cash_call_2017.json'
         assert os.path.exists(path)
         shutil.rmtree('./test_investors_cash_calls/')
 
@@ -208,7 +208,7 @@ class TestInvestment(AbstractClasses):
         investment = self._abstract_investment(investment_data)
         investor.set_investments([investment])
         investment.set_investor(investor)
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
         bill = investment.generate_bill(year=2017, path=path)
         expected_fees_mount = investment.invested_amount * investment.percentage_fees/100 * 5 + 3000
         assert bill.investor_id == investor.id
@@ -227,7 +227,7 @@ class TestInvestment(AbstractClasses):
         investment = self._abstract_investment(investment_data)
         investor.set_investments([investment])
         investment.set_investor(investor)
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
         bill = investment.generate_bill(year=2017, path=path)
         expected_fees_mount = investment.invested_amount * investment.percentage_fees/100 * 5
         assert bill.investor_id == investor.id
@@ -246,7 +246,7 @@ class TestInvestment(AbstractClasses):
         second_year = 2018
         third_year = 2019
 
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
 
         # Test the first year
         expected_bill_fees_for_first_year =  6158.4
@@ -277,7 +277,7 @@ class TestInvestment(AbstractClasses):
         investment = self._abstract_investment(investment_data)
         relationate_investors_and_investments([investor], [investment])
 
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
 
         first_year = 2017
         second_year = 2018
@@ -314,7 +314,7 @@ class TestInvestment(AbstractClasses):
         investment = self._abstract_investment(investment_data)
         relationate_investors_and_investments([investor], [investment])
 
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
 
         first_year = 2019
 
@@ -333,7 +333,7 @@ class TestInvestment(AbstractClasses):
         investment = self._abstract_investment(investment_data)
         relationate_investors_and_investments([investor], [investment])
 
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
 
         first_year = 2019
 
@@ -350,7 +350,7 @@ class TestInvestment(AbstractClasses):
         investment = self._abstract_investment(investment_data)
         relationate_investors_and_investments([investor], [investment])
 
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
 
         first_year = 2019
         second_year = 2020
@@ -408,7 +408,7 @@ class TestInvestment(AbstractClasses):
         investment = self._abstract_investment(investment_data)
         relationate_investors_and_investments([investor], [investment])
 
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
 
         first_year = 2019
         second_year = 2020
@@ -466,7 +466,7 @@ class TestInvestment(AbstractClasses):
         investment = self._abstract_investment(investment_data)
         relationate_investors_and_investments([investor], [investment])
 
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
 
         first_year = 2019
 
@@ -485,7 +485,7 @@ class TestInvestment(AbstractClasses):
         investment = self._abstract_investment(investment_data)
         relationate_investors_and_investments([investor], [investment])
 
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
 
         first_year = 2019
 
@@ -504,7 +504,7 @@ class TestInvestment(AbstractClasses):
         investment = self._abstract_investment(investment_data)
         relationate_investors_and_investments([investor], [investment])
 
-        path = f'./test_investors_bills/investor_{investor.id}/'
+        path = f'./test_investors_bills/'
 
         first_year = 2019
 
