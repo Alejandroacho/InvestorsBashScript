@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "investor_id": 1,
+    "startup_name": "Startup 1",
+    "invested_ammount": 42000,
+    "percentage_fees": 15,
+    "date_added": "2017-11-09 08:33:34+00:00",
+    "fees_type": "upfront"
+  },
+  {
+    "id": 2,
+    "investor_id": 1,
+    "startup_name": "Startup 2",
+    "invested_ammount": 42000,
+    "percentage_fees": 15,
+    "date_added": "2018-11-09 08:33:34+00:00",
+    "fees_type": "yearly"
+  },
+  {
+    "id": 3,
+    "investor_id": 2,
+    "startup_name": "Startup 3",
+    "invested_ammount": 50000,
+    "percentage_fees": 15,
+    "date_added": "2019-11-09 08:33:34+00:00",
+    "fees_type": "yearly"
+  },
+  {
+    "id": 4,
+    "investor_id": 2,
+    "startup_name": "Startup 4",
+    "invested_ammount": 42000,
+    "percentage_fees": 15,
+    "date_added": "2018-11-09 08:33:34+00:00",
+    "fees_type": "yearly"
+  }
+]
