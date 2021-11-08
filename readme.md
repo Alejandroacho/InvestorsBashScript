@@ -18,6 +18,9 @@ There are many flags that you can look for running:
 
 `python3 script.py -h`
 
+You can run the tests running:
+
+`pytest`
 
 #### Assumptions
 
