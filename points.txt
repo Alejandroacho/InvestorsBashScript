@@ -1,0 +1,45 @@
+# PROBLEM
+
+  · Automated way to send 'Cash Calls' (a group of bills) to investors is needed.
+
+  · There are many types of bills.
+
+  · An investor can have multiple bills and of multiple types.
+
+  · SCRIPT IS NEEDED TO GENERATE BILLS.
+
+  · Bills will be checked by a human eye (must be stored).
+
+  · Human must be able to group bills by investor.
+
+  · If set of bills is verified, the Cash Call will be generated (in real world, the cash call is an invoice that will be sended by email, but generation of invoice and email is out of scope in this test).
+
+  · We need to check the status of the Cash Call (validated, sent, paid, overdue).
+
+# BILLS
+
+  · Membership
+    Active members pays a subscription of €3000 a year. But if an investor invests +€50k that year he does not need to pay any of the yearly subscription.
+
+  · Upfront fees
+    An investor can pay all his feed upfront for an investment, so we can only bill him once.
+
+    fee percentage x amount invested x 5 years
+
+  · Yearly fees
+    - Before 2019/04
+      First year: date of the investment bought / 365 x fee percentage x amount invested
+
+      Other years: fee percentage x amount invested
+
+    - After 2019/04
+      First year: date of the investment bought / amount days in that year x fee percentage x amount invested
+
+      Second year: fee percentage x amount invested
+
+      Third year: (fee percentage - 0.20 %) x amount invested
+
+      Fourth year: (fee percentage - 0.50 %) x amount invested
+
+      Following years: (fee percentage - 1 %) x amount invested
+
