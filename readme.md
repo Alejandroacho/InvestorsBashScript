@@ -25,5 +25,6 @@ You can run the tests running:
 #### Assumptions
 
 * Yearly subscription will not be payed if some year before was invested €50k or more.
-* Percentage of the days in a year must be considered as first of January corresponds to100%.
+* Percentage of the days in a year must be considered as first of January corresponds to 100%.
 * When you rests 1% to fees percentage the final percentage is the fee minus 1. Ex: 14% -> 13%.
+* After 2019/04 I assumed that leap years has different calculation from normal ones.
